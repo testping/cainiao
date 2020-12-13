@@ -18,6 +18,6 @@ android {
 }
 
 dependencies {
-    api project(path: ':common')
     //from dependencies.gradle
+    implementation project(path: ':service')
 }

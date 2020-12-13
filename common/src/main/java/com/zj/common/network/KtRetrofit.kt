@@ -1,9 +1,9 @@
 package com.zj.common.network
 
-import com.zj.network.config.CniaoInterceptor
-import com.zj.network.config.KtHttpLogInterceptor
-import com.zj.network.config.LocalCookieKar
-import com.zj.network.config.RetryInterceptor
+import com.zj.common.network.config.CniaoInterceptor
+import com.zj.common.network.config.KtHttpLogInterceptor
+import com.zj.common.network.config.LocalCookieKar
+import com.zj.common.network.config.RetryInterceptor
 import com.zj.common.network.support.LiveDataCallAdapterFactory
 import okhttp3.Cache
 import okhttp3.OkHttpClient

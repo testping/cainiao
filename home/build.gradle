@@ -6,6 +6,7 @@ if (singleModule.toBoolean()) {
 }
 
 apply from: '../dependencies.gradle'
+apply plugin: 'kotlin-android'
 
 android {
     //from dependencies.gradle
@@ -19,4 +20,7 @@ android {
 
 dependencies {
     //from dependencies.gradle
+    implementation project(path: ':service')
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
 }

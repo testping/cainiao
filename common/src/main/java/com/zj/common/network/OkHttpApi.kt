@@ -2,11 +2,12 @@ package com.zj.common.network
 
 import androidx.collection.SimpleArrayMap
 import com.google.gson.Gson
+import com.zj.common.network.config.CniaoInterceptor
+import com.zj.common.network.config.KtHttpLogInterceptor
+import com.zj.common.network.config.LocalCookieKar
+import com.zj.common.network.config.RetryInterceptor
 import com.zj.common.network.support.IHttpCallback
-import com.zj.network.config.CniaoInterceptor
-import com.zj.network.config.KtHttpLogInterceptor
-import com.zj.network.config.LocalCookieKar
-import com.zj.network.config.RetryInterceptor
+
 import kotlinx.coroutines.suspendCancellableCoroutine
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl

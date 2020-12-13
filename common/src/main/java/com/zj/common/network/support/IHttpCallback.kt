@@ -20,20 +20,3 @@ interface IHttpCallback {
     fun onFailed(error: Any?)
 
 }
-
-/**
- * 网络请求回调
- */
-interface IHttpCallback {
-
-    /**
-     * 请求成功
-     * [data] 请求到的数据
-     */
-    fun onSuccess(data: Any?)
-
-    /**
-     * 请求失败
-     */
-    fun onFailed(data: Any?)
-}
