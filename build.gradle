@@ -1,0 +1,45 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply plugin: 'koin'
+apply plugin: 'com.alibaba.arouter'
+
+buildscript {
+
+    ext {
+        kotlin_version = '1.4.10'
+        compile_sdk_version = 29
+        build_tools_version = '29.0.3'
+        min_sdk_version = 21
+        target_sdk_version = 29
+        lib_version_code = 1
+        lib_version_name = "1.0"
+
+        navigation_version = '2.3.1'
+        koin_version = '2.1.6'//依赖注入框架
+    }
+
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:4.0.1"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
+
+        classpath "org.koin:koin-gradle-plugin:$koin_version"
+        classpath "com.alibaba:arouter-register:1.0.2"
+
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

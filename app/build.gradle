@@ -1,0 +1,14 @@
+apply plugin: 'com.android.application'
+apply from: '../dependencies.gradle'
+
+android {
+
+    defaultConfig {
+        applicationId "com.zj.cainiao"
+    }
+
+}
+
+dependencies {
+
+}

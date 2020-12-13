@@ -1,0 +1,139 @@
+//统一配置一些共用参数
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt' //kotlin注解框架
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+android {
+    compileSdkVersion compile_sdk_version
+    buildToolsVersion build_tools_version
+
+    defaultConfig {
+        minSdkVersion min_sdk_version
+        targetSdkVersion target_sdk_version
+        versionCode lib_version_code
+        versionName lib_version_name
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+
+        //Java ARouter配置 生成schema文件，便于查看数据库创建表的详细信息
+        javaCompileOptions {
+            annotationProcessorOptions {
+                //room 的scheme
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+                // ARouter的需要配置
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+
+        //kotlin ARouter 的配置方式
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
+                arg("room.schemaLocation": "$projectDir/schemas".toString())
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        dataBinding = true
+    }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
+    // work-runtime-ktx 2.1.0 and above now requires Java 8
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+}
+
+//创建一个dependencies管理的文件，可以在各自module的build.gradle文件里，apply form 该文件的相对路径(包含fileName)，如 apply form ../dependencies.gradle
+dependencies {
+    // implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    //region 平台相关
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.0"
+    implementation 'androidx.appcompat:appcompat:1.3.0-alpha02'
+    implementation 'androidx.core:core-ktx:1.5.0-alpha05'
+    implementation 'androidx.fragment:fragment-ktx:1.3.0-beta02'
+    implementation 'androidx.activity:activity-ktx:1.2.0-beta02'
+    implementation 'com.google.android.material:material:1.3.0-alpha04'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0-beta01'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    //endregion
+
+    //region Koin注解框架
+    implementation "org.koin:koin-core:$koin_version"
+    implementation "org.koin:koin-core-ext:$koin_version"
+    // Koin for Androidx
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    implementation "org.koin:koin-androidx-fragment:$koin_version"
+    implementation "org.koin:koin-androidx-ext:$koin_version"
+
+    testImplementation "org.koin:koin-test:$koin_version"
+    //endregion
+
+    //region jetPack lifecycle
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.3.0-beta01'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.3.0-beta01'
+    implementation 'androidx.lifecycle:lifecycle-runtime:2.3.0-beta01'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-beta01'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-beta01'
+    kapt "androidx.lifecycle:lifecycle-common-java8:2.3.0-beta01"
+    //endregion
+
+    //region room
+    implementation 'androidx.room:room-runtime:2.3.0-alpha03'
+    implementation 'androidx.room:room-common:2.3.0-alpha03'
+    implementation 'androidx.room:room-ktx:2.3.0-alpha03'
+    kapt "androidx.room:room-compiler:2.3.0-alpha03"
+    //endregion
+
+    implementation 'androidx.paging:paging-runtime:3.0.0-alpha10'
+    implementation 'androidx.paging:paging-runtime-ktx:3.0.0-alpha10'
+    implementation 'androidx.paging:paging-common:3.0.0-alpha10'
+    implementation 'androidx.paging:paging-common-ktx:3.0.0-alpha10'
+
+    implementation 'androidx.work:work-runtime:2.5.0-beta02'
+    implementation 'androidx.work:work-runtime-ktx:2.5.0-beta02'
+
+    //注意配置navigation版本号的时候，project下的build.gradle的class path也需要同步navigation的版本号配置
+    //region navigation
+    implementation "androidx.navigation:navigation-ui:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-fragment:$navigation_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-runtime:$navigation_version"
+    //endregion
+
+    //ARouter
+    implementation 'com.alibaba:arouter-api:1.5.0'
+    kapt 'com.alibaba:arouter-compiler:1.2.2'
+    //liveData eventBus
+    implementation 'com.jeremyliao:live-event-bus-x:1.7.2'
+
+    //region test libs
+    testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test:core:1.3.0'
+    androidTestImplementation 'androidx.test:core-ktx:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    //endregion
+
+}
