@@ -1,6 +1,9 @@
 package com.zj.common.network.config
 
 import android.util.Log
+import com.blankj.utilcode.util.GsonUtils
+import com.zj.common.network.model.ApiResponse
+import com.zj.common.network.model.NetResponse
 import com.zj.common.network.support.CniaoUtils
 import okhttp3.*
 import java.net.URLDecoder
@@ -73,7 +76,8 @@ class KtHttpLogInterceptor(block: (KtHttpLogInterceptor.() -> Unit)? = null) : I
         return kotlin.runCatching { chain.proceed(request) }
             .onFailure {
                 it.printStackTrace()
-                logIt(it.message.toString(),
+                logIt(
+                    it.message.toString(),
                     LogColor.ERROR
                 )
             }
@@ -126,7 +130,10 @@ class KtHttpLogInterceptor(block: (KtHttpLogInterceptor.() -> Unit)? = null) : I
                 kotlin.runCatching {
                     //peek类似于clone数据流，监视，窥探,不能直接用原来的body的string流数据作为日志，会消费掉io，所以这里是peek，监测
                     val peekBody = response.peekBody(1024 * 1024)
-                    sb.appendLine(CniaoUtils.unicodeDecode(peekBody.string()))
+                    val fromJson =
+                        GsonUtils.fromJson<NetResponse>(peekBody.string(), NetResponse::class.java)
+                    sb.appendLine(CniaoUtils.unicodeDecode(fromJson.toString()))
+                    sb.appendLine("data: " + CniaoUtils.decodeData(fromJson.data.toString()))
                 }.getOrNull()
             }
         }
@@ -194,15 +201,20 @@ class KtHttpLogInterceptor(block: (KtHttpLogInterceptor.() -> Unit)? = null) : I
     private fun logIt(any: Any, color: LogColor? = null) {
         when (color ?: this.logColor) {
             LogColor.VERBOSE -> Log.v(
-                TAG, any.toString())
+                TAG, any.toString()
+            )
             LogColor.DEBUG -> Log.d(
-                TAG, any.toString())
+                TAG, any.toString()
+            )
             LogColor.INFO -> Log.i(
-                TAG, any.toString())
+                TAG, any.toString()
+            )
             LogColor.WARN -> Log.w(
-                TAG, any.toString())
+                TAG, any.toString()
+            )
             LogColor.ERROR -> Log.e(
-                TAG, any.toString())
+                TAG, any.toString()
+            )
         }
     }
 }

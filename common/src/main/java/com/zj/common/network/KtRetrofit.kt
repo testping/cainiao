@@ -1,5 +1,6 @@
 package com.zj.common.network
 
+import com.zj.common.BuildConfig
 import com.zj.common.network.config.CniaoInterceptor
 import com.zj.common.network.config.KtHttpLogInterceptor
 import com.zj.common.network.config.LocalCookieKar
@@ -25,7 +26,11 @@ object KtRetrofit {
         .cookieJar(LocalCookieKar())
         .addNetworkInterceptor(CniaoInterceptor())
         .addNetworkInterceptor(KtHttpLogInterceptor() {
-            setLogLevel(KtHttpLogInterceptor.LogLevel.BODY)
+            if (BuildConfig.DEBUG) {
+                setLogLevel(KtHttpLogInterceptor.LogLevel.BODY)
+            } else {
+                setLogLevel(KtHttpLogInterceptor.LogLevel.NONE)
+            }
         })
         .addNetworkInterceptor(RetryInterceptor(1))
         .build()

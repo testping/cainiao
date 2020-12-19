@@ -9,21 +9,21 @@ buildscript {
         kotlin_version = '1.4.10'
         compile_sdk_version = 29
         build_tools_version = '29.0.3'
-        min_sdk_version = 21
+        min_sdk_verion = 21
         target_sdk_version = 29
-        lib_version_code = 1
-        lib_version_name = "1.0"
 
-        navigation_version = '2.3.1'
+        lib_version_code = 1
+        lib_version_name = "1.0.0"
+
+        navigation_version = "2.3.0"//navigation 版本号，需要在dependencies和classpath保持一致
         koin_version = '2.1.6'//依赖注入框架
     }
-
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.0.1"
+        classpath 'com.android.tools.build:gradle:4.1.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"

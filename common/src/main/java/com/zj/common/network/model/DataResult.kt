@@ -1,6 +1,5 @@
 package com.zj.common.network.model
 
-
 /**
  * 数据响应密封类
  */

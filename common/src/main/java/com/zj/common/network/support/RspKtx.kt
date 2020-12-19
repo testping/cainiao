@@ -63,7 +63,6 @@ inline fun <reified T> Response.toEntity(): T? {
 
 //region retrofit 相关扩展
 
-
 /**
  * Retrofit的Call执行异步，并转化为liveData可观察结果
  */
@@ -86,10 +85,9 @@ fun <T : Any> Call<T>.toLiveData(): LiveData<T?> {
     return live
 }
 
-
 /**
  * 扩展retrofit的返回数据，调用await，并catch超时等异常
- * @return DataResult 返回格式为ApiResponse封装
+ * @return DataResult 返回格式为DataResult封装
  */
 suspend fun <T : Any> Call<T>.serverData(): DataResult<T> {
     var result: DataResult<T> = DataResult.Loading
@@ -103,7 +101,6 @@ suspend fun <T : Any> Call<T>.serverData(): DataResult<T> {
     }
     return result
 }
-
 
 /**
  * 扩展retrofit的返回数据，调用await，并catch超时等异常

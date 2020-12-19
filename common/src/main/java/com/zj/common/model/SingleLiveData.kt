@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -11,7 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  * 单事件响应的LiveData，只有一个接收者能接收信息，
  *
  */
-class SingleLiveData<T> : LiveData<T>() {
+class SingleLiveData<T> : MutableLiveData<T>() {
 
     private val mPending = AtomicBoolean(false)
 
