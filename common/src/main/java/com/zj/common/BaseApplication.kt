@@ -8,9 +8,11 @@ import org.koin.core.logger.Level
 
 abstract class BaseApplication : Application() {
 
+    private var application: Application? = null
+
     override fun onCreate() {
         super.onCreate()
-
+        application = this
         // koin注入框架初始化
         startKoin {
             androidLogger(Level.ERROR)
@@ -20,6 +22,7 @@ abstract class BaseApplication : Application() {
         initConfig()
         initData()
     }
+
 
     open fun initConfig() {
 

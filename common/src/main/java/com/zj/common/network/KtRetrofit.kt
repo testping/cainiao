@@ -6,6 +6,7 @@ import com.zj.common.network.config.KtHttpLogInterceptor
 import com.zj.common.network.config.LocalCookieKar
 import com.zj.common.network.config.RetryInterceptor
 import com.zj.common.network.support.LiveDataCallAdapterFactory
+import com.zj.common.utils.HostInterceptor
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -24,6 +25,7 @@ object KtRetrofit {
         .followRedirects(false) // 重定向
         .cache(Cache(File("data/user/0/com.zj.cainiao/cache", "okHttp"), 1024))
         .cookieJar(LocalCookieKar())
+        .addInterceptor(HostInterceptor())
         .addNetworkInterceptor(CniaoInterceptor())
         .addNetworkInterceptor(KtHttpLogInterceptor() {
             if (BuildConfig.DEBUG) {

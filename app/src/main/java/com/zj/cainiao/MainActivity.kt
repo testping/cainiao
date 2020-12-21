@@ -8,7 +8,7 @@ import com.zj.common.base.BaseActivity
 import com.zj.common.widget.BnvMediator
 import com.zj.course.CourseFragment
 import com.zj.home.HomeFragment
-import com.zj.mine.MineFragment
+import com.zj.mine.MineNavFragment
 import com.zj.study.StudyFragment
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
@@ -17,7 +17,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         INDEX_HOME to HomeFragment(),
         INDEX_COURSE to CourseFragment(),
         INDEX_STUDY to StudyFragment(),
-        INDEX_MINE to MineFragment()
+        INDEX_MINE to MineNavFragment()
     )
 
     override fun getLayoutId(): Int = R.layout.activity_main

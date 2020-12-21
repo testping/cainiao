@@ -12,7 +12,7 @@ abstract class BaseViewModel : ViewModel() {
     private val jobs = mutableListOf<Job>()
     val isLoading = MutableLiveData<Boolean>()//标记网络loading状态
 
-    fun serverAwait(block: suspend CoroutineScope.() -> Unit) = viewModelScope.launch {
+   protected fun serverAwait(block: suspend CoroutineScope.() -> Unit) = viewModelScope.launch {
         isLoading.value = true
         block.invoke(this)
         isLoading.value = false

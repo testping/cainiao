@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.zj.common.network.config.NetWorkConfigKt.NET_CONFIG_APP_KEY;
+import static com.zj.common.network.config.CniaoConfigKt.NET_CONFIG_APP_KEY;
 
 
 /**

@@ -1,6 +1,7 @@
 package com.zj.login.net
 
 import androidx.annotation.Keep
+import com.zj.service.repo.CniaoUserInfo
 
 /**
  * 查询手机号是否注册
@@ -18,17 +19,4 @@ data class RegisterRsp(
 /**
  * 手机号密码登录
  */
-@Keep
-data class LoginRsp(
-    val course_permission: Boolean,
-    val token: String?,
-    val user: User
-) {
-    @Keep
-    data class User(
-        val id: Int,//用户id
-        val logo_url: String?,//用户头像
-        val reg_time: String?,//用户注册时间
-        val username: String?//用户名
-    )
-}
+typealias LoginRsp = CniaoUserInfo

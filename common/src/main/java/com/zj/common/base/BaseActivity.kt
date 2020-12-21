@@ -19,7 +19,7 @@ abstract class BaseActivity<ActivityDataBinding : ViewDataBinding> : AppCompatAc
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        dataBinding = bindView<ActivityDataBinding>(getLayoutId()).also{
+        dataBinding = bindView<ActivityDataBinding>(getLayoutId()).also {
             it.lifecycleOwner = viewLifeCycleOwner
         }
         initConfig()
@@ -35,7 +35,7 @@ abstract class BaseActivity<ActivityDataBinding : ViewDataBinding> : AppCompatAc
     /**
      * 扩展liveData的observe函数
      */
-    protected fun <T : Any> LiveData<T>.observerKt(block: (T) -> Unit) {
+    protected fun <T : Any> LiveData<T>.observerKt(block: (T?) -> Unit) {
         this.observe(viewLifeCycleOwner, Observer {
             block.invoke(it)
         })

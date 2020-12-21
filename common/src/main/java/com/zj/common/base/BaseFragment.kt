@@ -43,8 +43,8 @@ abstract class BaseFragment<FragmentViewDataBinding : ViewDataBinding> : Fragmen
     /**
      * 扩展liveData的observe函数
      */
-    protected fun <T : Any> LiveData<T>.observerKt(block: (T) -> Unit) {
-        this.observe(viewLifecycleOwner, Observer { data ->
+    protected fun <T : Any> LiveData<T>.observerKt(block: (T?) -> Unit) {
+        this.observe(viewLifecycleOwner, { data ->
             block(data)
         })
     }

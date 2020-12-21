@@ -3,6 +3,7 @@ package com.zj.common.network.config
 import com.blankj.utilcode.util.*
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.zj.common.utils.CniaoSpUtils
 import okhttp3.CacheControl
 import okhttp3.FormBody
 import okhttp3.Interceptor
@@ -23,22 +24,23 @@ class CniaoInterceptor : Interceptor {
 
 
     override fun intercept(chain: Interceptor.Chain): Response {
-
+        val originRequest = chain.request()
         // 公共请求参数
         val attachHeaders = mutableListOf<Pair<String, String>>(
             "appid" to NET_CONFIG_APP_ID,
-            "platform" to "android", //如果重复请求，可能会报重复签名错误，yapi 平台标记则不会
-            "timestamp" to System.currentTimeMillis().toString(), // 时间戳
-            "brand" to DeviceUtils.getManufacturer(), // 手机厂商
-            "model" to DeviceUtils.getModel(), // 手机型号
-            "uuid" to DeviceUtils.getUniqueDeviceId(), //手机设备标识
-            "network" to NetworkUtils.getNetworkType().name, // 网络类型
-            "system" to DeviceUtils.getSDKVersionName(), // 系统版本号 10
-            "version" to AppUtils.getAppVersionName()  // app版本号
+            "platform" to "android",//如果重复请求，可能会报重复签名错误，yapi 平台标记则不会
+            "timestamp" to System.currentTimeMillis().toString(),
+            "brand" to DeviceUtils.getManufacturer(),
+            "model" to DeviceUtils.getModel(),
+            "uuid" to DeviceUtils.getUniqueDeviceId(),
+            "network" to NetworkUtils.getNetworkType().name,
+            "system" to DeviceUtils.getSDKVersionName(),
+            "version" to AppUtils.getAppVersionName()
         )
 
         // 如果有token加入请求参数中
-        val localToken = SPStaticUtils.getString(SP_KEY_USER_TOKEN)
+        val localToken =
+            CniaoSpUtils.getString(SP_KEY_USER_TOKEN, originRequest.header("token")) ?: ""
         if (localToken.isNotEmpty()) {
             attachHeaders.add("token" to localToken)
         }
@@ -47,8 +49,8 @@ class CniaoInterceptor : Interceptor {
         val signHeaders = mutableListOf<Pair<String, String>>()
         signHeaders.addAll(attachHeaders)
 
-        val originRequest = chain.request()
-        if ("GET" == originRequest.method) {
+        //get的请求，参数
+        if (originRequest.method == "GET") {
             originRequest.url.queryParameterNames.forEach { key ->
                 signHeaders.add(key to (originRequest.url.queryParameter(key) ?: ""))
             }
@@ -79,32 +81,18 @@ class CniaoInterceptor : Interceptor {
         }
 
         // 加密的请求参数按照Ascii排序 用&拼接加上"&appkey=appKeyValue"
-        val signValue = signHeaders.sortedBy {
-            it.first
-        }.joinToString("&") {
-            if (it.second.isNotEmpty()) {
-                "${it.first}=${it.second}"
-            } else {
-                ""
-            }
-        }.plus("&appkey=$NET_CONFIG_APP_KEY")
+        val signValue = signHeaders
+            .sortedBy { it.first }
+            .joinToString("&") { "${it.first}=${it.second}" }
+            .plus("&appkey=$NET_CONFIG_APP_KEY")
 
         val newRequest = originRequest.newBuilder()
             .cacheControl(CacheControl.FORCE_NETWORK)
-
-
         attachHeaders.forEach {
-            newRequest.addHeader(it.first, it.second)
+            newRequest.header(it.first, it.second)
         }
         // 添加签名信息
-        newRequest.addHeader("sign", EncryptUtils.encryptMD5ToString(signValue))
-
-        if ("GET" == originRequest.method) {
-            newRequest.get()
-        } else if ("POST" == originRequest.method && requestBody != null) {
-            newRequest.post(requestBody)
-        }
-
+        newRequest.header("sign", EncryptUtils.encryptMD5ToString(signValue))
         return chain.proceed(newRequest.build())
     }
 }

@@ -11,11 +11,11 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/login_module_name">
-            <intent-filter>
+           <!-- <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
     </application>
 

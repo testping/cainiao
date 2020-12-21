@@ -4,14 +4,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.zj.service.R
 
 /**
  * imageView支持图片加载 绑定
  */
 @BindingAdapter("app:srcCompat", requireAll = false)
 fun imgSrc(iv: ImageView, src: Any?) {
+
+    val imgRes = src?: R.drawable.icon_default_header
     Glide.with(iv)
-        .load(src)
+        .load(imgRes)
         .into(iv)
 }
 
