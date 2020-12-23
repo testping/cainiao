@@ -7,12 +7,13 @@ import com.zj.login.moduleLogin
 import com.zj.mine.moduleMine
 import com.zj.service.assistant.AssistantApp
 import com.zj.service.moduleService
+import com.zj.study.moduleStudy
 import org.koin.core.context.loadKoinModules
 import org.koin.core.module.Module
 
 class CnApplication : BaseApplication() {
 
-    private val modules = arrayListOf<Module>(moduleService, moduleMine, moduleLogin)
+    private val modules = arrayListOf<Module>(moduleService, moduleMine, moduleLogin, moduleStudy)
 
     override fun initConfig() {
         super.initConfig()

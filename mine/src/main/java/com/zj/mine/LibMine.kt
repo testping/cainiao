@@ -1,6 +1,7 @@
 package com.zj.mine
 
 import com.zj.common.network.KtRetrofit
+import com.zj.common.network.config.BASE_URL
 import com.zj.mine.net.UserInfoService
 import com.zj.mine.repo.IUserInfoResource
 import com.zj.mine.repo.UserInfoRepo
@@ -16,7 +17,7 @@ import org.koin.dsl.module
 val moduleMine: Module = module {
 
     single {
-        KtRetrofit.initConfig("https://course.api.cniao5.com/")
+        KtRetrofit.initConfig(BASE_URL)
             .getService(UserInfoService::class.java)
     }
 

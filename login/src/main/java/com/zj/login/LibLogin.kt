@@ -1,6 +1,7 @@
 package com.zj.login
 
 import com.zj.common.network.KtRetrofit
+import com.zj.common.network.config.BASE_URL
 import com.zj.login.net.LoginService
 import com.zj.login.repo.ILoginResource
 import com.zj.login.repo.LoginRepo
@@ -15,7 +16,7 @@ import org.koin.dsl.module
 val moduleLogin: Module = module {
 
     single {
-        KtRetrofit.initConfig("https://course.api.cniao5.com/")
+        KtRetrofit.initConfig(BASE_URL)
             .getService(LoginService::class.java)
     }
 
